@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Mind and Motion</string>
+
+    <!-- Bottom navigation -->
+    <string name="nav_tasks">Tasks</string>
+    <string name="nav_journal">Journal</string>
+    <string name="nav_pomodoro">Pomodoro</string>
+    <string name="nav_settings">Settings</string>
 </resources>
