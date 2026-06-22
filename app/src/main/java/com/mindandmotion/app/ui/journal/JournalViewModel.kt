@@ -37,11 +37,11 @@ class JournalViewModel(
 
     private val markedDates: StateFlow<Set<LocalDate>> = repository.observeEntryDates()
         .map { it.toSet() }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), emptySet())
+        .stateIn(viewModelScope, SharingStarted.Eagerly, emptySet())
 
     private val selectedEntry: StateFlow<JournalEntryEntity?> = selectedDate
         .flatMapLatest { date -> repository.observeEntryForDate(date) }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
+        .stateIn(viewModelScope, SharingStarted.Eagerly, null)
 
     private val calendarState = combine(visibleMonth, markedDates) { month, marked ->
         month to marked
@@ -62,7 +62,7 @@ class JournalViewModel(
             draftContent = content,
             draftMood = mood
         )
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), JournalUiState())
+    }.stateIn(viewModelScope, SharingStarted.Eagerly, JournalUiState())
 
     fun onPreviousMonth() {
         visibleMonth.value = visibleMonth.value.minusMonths(1)
