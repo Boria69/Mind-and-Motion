@@ -9,21 +9,36 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.mindandmotion.app.MindAndMotionApp
+import com.mindandmotion.app.ui.tasks.TaskEditScreen
+import com.mindandmotion.app.ui.tasks.TaskListScreen
+import com.mindandmotion.app.ui.tasks.TaskViewModel
+import com.mindandmotion.app.ui.tasks.TaskViewModelFactory
 
 /**
  * Single-Activity navigation shell. A [Scaffold] hosts the [BottomBar] and a
  * [NavHost] whose start destination is the Tasks tab.
  *
- * Each top-level route currently shows a [PlaceholderScreen]; the real screens
- * replace these in their feature tickets (Tasks MM-12, Journal MM-22,
+ * Tasks (MM-12/MM-13) is wired to its real screens. The remaining tabs still
+ * show a [PlaceholderScreen] until their feature tickets land (Journal MM-22,
  * Pomodoro MM-32, Settings MM-40).
  */
 @Composable
 fun AppNavHost() {
     val navController = rememberNavController()
+    val container = (LocalContext.current.applicationContext as MindAndMotionApp).container
+
+    // O singură instanță de TaskViewModel, partajată de listă și de ecranul de editare.
+    val taskViewModel: TaskViewModel = viewModel(
+        factory = TaskViewModelFactory(container.taskRepository)
+    )
 
     Scaffold(
         bottomBar = { BottomBar(navController) },
@@ -33,7 +48,29 @@ fun AppNavHost() {
             startDestination = TopLevelDestination.TASKS.route,
             modifier = Modifier.padding(innerPadding),
         ) {
-            composable(TopLevelDestination.TASKS.route) { PlaceholderScreen("Tasks") }
+            composable(TopLevelDestination.TASKS.route) {
+                TaskListScreen(
+                    viewModel = taskViewModel,
+                    onAddTask = { navController.navigate("${Routes.TASK_EDIT}?taskId=-1") },
+                    onEditTask = { id -> navController.navigate("${Routes.TASK_EDIT}?taskId=$id") }
+                )
+            }
+            composable(
+                route = "${Routes.TASK_EDIT}?taskId={taskId}",
+                arguments = listOf(
+                    navArgument("taskId") {
+                        type = NavType.LongType
+                        defaultValue = -1L
+                    }
+                )
+            ) { backStackEntry ->
+                val rawId = backStackEntry.arguments?.getLong("taskId") ?: -1L
+                TaskEditScreen(
+                    viewModel = taskViewModel,
+                    taskId = rawId.takeIf { it >= 0 },
+                    onBack = { navController.popBackStack() }
+                )
+            }
             composable(TopLevelDestination.JOURNAL.route) { PlaceholderScreen("Journal") }
             composable(TopLevelDestination.POMODORO.route) { PlaceholderScreen("Pomodoro") }
             composable(TopLevelDestination.SETTINGS.route) { PlaceholderScreen("Settings") }
