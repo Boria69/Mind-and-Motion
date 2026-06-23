@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import android.app.Application
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,6 +18,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.mindandmotion.app.MindAndMotionApp
+import com.mindandmotion.app.ui.pomodoro.PomodoroScreen
+import com.mindandmotion.app.ui.pomodoro.PomodoroViewModel
+import com.mindandmotion.app.ui.pomodoro.PomodoroViewModelFactory
 import com.mindandmotion.app.ui.tasks.TaskEditScreen
 import com.mindandmotion.app.ui.tasks.TaskListScreen
 import com.mindandmotion.app.ui.tasks.TaskViewModel
@@ -27,8 +31,13 @@ fun AppNavHost() {
     val navController = rememberNavController()
     val container = (LocalContext.current.applicationContext as MindAndMotionApp).container
 
+    val app = LocalContext.current.applicationContext as Application
+
     val taskViewModel: TaskViewModel = viewModel(
         factory = TaskViewModelFactory(container.taskRepository)
+    )
+    val pomodoroViewModel: PomodoroViewModel = viewModel(
+        factory = PomodoroViewModelFactory(app, container.timerEngine)
     )
 
     Scaffold(
@@ -63,7 +72,9 @@ fun AppNavHost() {
                 )
             }
             composable(TopLevelDestination.JOURNAL.route) { PlaceholderScreen("Journal") }
-            composable(TopLevelDestination.POMODORO.route) { PlaceholderScreen("Pomodoro") }
+            composable(TopLevelDestination.POMODORO.route) {
+                PomodoroScreen(viewModel = pomodoroViewModel)
+            }
             composable(TopLevelDestination.SETTINGS.route) { PlaceholderScreen("Settings") }
         }
     }
