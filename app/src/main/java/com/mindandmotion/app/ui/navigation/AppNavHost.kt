@@ -38,7 +38,7 @@ fun AppNavHost() {
         factory = TaskViewModelFactory(container.taskRepository)
     )
     val pomodoroViewModel: PomodoroViewModel = viewModel(
-        factory = PomodoroViewModelFactory(app, container.timerEngine)
+        factory = PomodoroViewModelFactory(app, container.timerEngine, container.prefs)
     )
     val journalViewModel: JournalViewModel = viewModel(
         factory = JournalViewModelFactory(container.journalRepository)
