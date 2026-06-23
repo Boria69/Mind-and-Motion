@@ -22,20 +22,11 @@ import com.mindandmotion.app.ui.tasks.TaskListScreen
 import com.mindandmotion.app.ui.tasks.TaskViewModel
 import com.mindandmotion.app.ui.tasks.TaskViewModelFactory
 
-/**
- * Single-Activity navigation shell. A [Scaffold] hosts the [BottomBar] and a
- * [NavHost] whose start destination is the Tasks tab.
- *
- * Tasks (MM-12/MM-13) is wired to its real screens. The remaining tabs still
- * show a [PlaceholderScreen] until their feature tickets land (Journal MM-22,
- * Pomodoro MM-32, Settings MM-40).
- */
 @Composable
 fun AppNavHost() {
     val navController = rememberNavController()
     val container = (LocalContext.current.applicationContext as MindAndMotionApp).container
 
-    // O singură instanță de TaskViewModel, partajată de listă și de ecranul de editare.
     val taskViewModel: TaskViewModel = viewModel(
         factory = TaskViewModelFactory(container.taskRepository)
     )
@@ -78,7 +69,6 @@ fun AppNavHost() {
     }
 }
 
-/** Temporary content for a tab whose real screen has not been built yet. */
 @Composable
 private fun PlaceholderScreen(name: String) {
     Box(

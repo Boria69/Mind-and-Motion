@@ -48,7 +48,6 @@ fun TaskEditScreen(
     taskId: Long?,
     onBack: () -> Unit
 ) {
-    // Încarcă draft-ul o singură dată, când intrăm pe ecran pentru acest id.
     LaunchedEffect(taskId) { viewModel.loadForEdit(taskId) }
 
     val state by viewModel.editState.collectAsState()
@@ -189,7 +188,6 @@ private fun Priority.shortLabel(): String = when (this) {
 
 private val dateFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy", Locale.forLanguageTag("ro"))
 
-// Date picker-ul lucrează în millis UTC; convertim explicit ca să nu apară off-by-one din fus orar.
 private fun LocalDate.toUtcMillis(): Long =
     atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli()
 

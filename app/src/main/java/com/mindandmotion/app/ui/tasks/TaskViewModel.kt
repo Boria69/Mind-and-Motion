@@ -16,13 +16,11 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
-/** Starea listei de task-uri (MM-12). */
 data class TaskListUiState(
     val tasks: List<TaskEntity> = emptyList(),
     val isLoading: Boolean = true
 )
 
-/** Starea formularului de adăugare/editare (MM-13). */
 data class TaskEditUiState(
     val title: String = "",
     val description: String = "",
@@ -33,11 +31,6 @@ data class TaskEditUiState(
     val canSave: Boolean get() = title.isNotBlank()
 }
 
-/**
- * ViewModel pentru modulul Tasks (MM-11). Expune lista sortată (din DAO) și
- * starea formularului de editare. O singură instanță e partajată între
- * [com.mindandmotion.app.ui.tasks.TaskListScreen] și TaskEditScreen.
- */
 class TaskViewModel(
     private val repository: TaskRepository
 ) : ViewModel() {
@@ -49,10 +42,7 @@ class TaskViewModel(
     private val _editState = MutableStateFlow(TaskEditUiState())
     val editState: StateFlow<TaskEditUiState> = _editState.asStateFlow()
 
-    // Task-ul aflat în editare, păstrat ca să nu pierdem id/isDone/createdAt la salvare.
     private var editingTask: TaskEntity? = null
-
-    // ---- Listă ----
 
     fun onToggleDone(task: TaskEntity) {
         viewModelScope.launch { repository.setDone(task.id, !task.isDone) }
@@ -62,9 +52,6 @@ class TaskViewModel(
         viewModelScope.launch { repository.delete(task) }
     }
 
-    // ---- Editare ----
-
-    /** Încarcă formularul: `id == null` → task nou, altfel task existent. */
     fun loadForEdit(id: Long?) {
         if (id == null) {
             editingTask = null
@@ -96,7 +83,6 @@ class TaskViewModel(
 
     fun onDueDateChange(date: LocalDate?) = _editState.update { it.copy(dueDate = date) }
 
-    /** Șterge task-ul aflat în editare (acțiunea de ștergere din TaskEditScreen). */
     fun deleteEditing() {
         val task = editingTask ?: return
         viewModelScope.launch { repository.delete(task) }
@@ -105,7 +91,6 @@ class TaskViewModel(
     fun onSave() {
         val draft = _editState.value
         if (!draft.canSave) return
-        // Pornim de la task-ul existent (păstrează isDone/createdAt) sau de la unul nou.
         val base = editingTask ?: TaskEntity(title = "")
         viewModelScope.launch {
             repository.upsert(
@@ -120,10 +105,6 @@ class TaskViewModel(
     }
 }
 
-/**
- * Factory manuală (fără Hilt, conform ARCHITECTURE.md) — primește repository-ul
- * din AppContainer.
- */
 class TaskViewModelFactory(
     private val repository: TaskRepository
 ) : ViewModelProvider.Factory {

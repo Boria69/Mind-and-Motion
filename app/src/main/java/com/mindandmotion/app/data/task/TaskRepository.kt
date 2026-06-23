@@ -2,10 +2,6 @@ package com.mindandmotion.app.data.task
 
 import kotlinx.coroutines.flow.Flow
 
-/**
- * Sursă unică de adevăr pentru task-uri (MM-11, [TU]).
- * Întoarce Flow-uri din DAO și nu cunoaște nimic despre UI.
- */
 class TaskRepository(private val taskDao: TaskDao) {
 
     fun observeTasks(): Flow<List<TaskEntity>> = taskDao.observeAll()

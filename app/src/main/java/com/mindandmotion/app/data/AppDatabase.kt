@@ -10,12 +10,6 @@ import com.mindandmotion.app.data.journal.JournalEntryEntity
 import com.mindandmotion.app.data.task.TaskDao
 import com.mindandmotion.app.data.task.TaskEntity
 
-/**
- * Baza de date Room a aplicației (MM-02, completată la MM-11/[TU]).
- *
- * Înregistrează toate entitățile și expune DAO-urile. Lista de [TypeConverters]
- * e una singură pentru tot @Database (LocalDate + enum-urile Mood/Priority).
- */
 @Database(
     entities = [TaskEntity::class, JournalEntryEntity::class],
     version = 1,
