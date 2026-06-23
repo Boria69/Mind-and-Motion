@@ -60,6 +60,29 @@ Fiecare ID = un „ticket". Le bifați pe măsură ce le faceți. `Depinde de` a
 
 ---
 
+## Epic 5 — Autentificare *(NOU — cerință barem, 2p)* `[TU]` propus
+
+> Adăugat după primirea baremului (vezi `BAREM.md`). Fără auth, plafonul e ~6/10.
+
+| ID | Owner | Titlu | Depinde de | Branch |
+|---|---|---|---|---|
+| MM-50 | `[TU]` | `UserEntity` + `UserDao` + `AuthRepository` (Room, hash parolă) | MM-02 | `feat/auth-data` |
+| MM-51 | `[TU]` | `AuthViewModel` + sesiune în DataStore (login/register/logout) | MM-50 | `feat/auth-vm` |
+| MM-52 | `[TU]` | `LoginScreen` + `RegisterScreen` | MM-51, MM-05 | `feat/auth-ui` |
+| MM-53 | `[TU]` | Gating navigație (nelogat→Login) + Logout în Settings | MM-52, MM-03 | `feat/auth-nav` |
+
+## Epic 6 — Conținut online / HTTP *(NOU — cerință barem, 2p)* `[COLEG]` propus
+
+> Minim 2 cereri HTTP + deserializare JSON afișată într-o listă scrollabilă. Vezi `BAREM.md`.
+
+| ID | Owner | Titlu | Depinde de | Branch |
+|---|---|---|---|---|
+| MM-60 | `[COLEG]` | Retrofit + serializare + `ApiService` + DTO-uri (2 endpointuri) + permisiune INTERNET | MM-01 | `feat/net-setup` |
+| MM-61 | `[COLEG]` | `QuotesRepository` + `QuotesViewModel` (StateFlow loading/error/data) | MM-60 | `feat/net-vm` |
+| MM-62 | `[COLEG]` | `InspirationScreen` (listă scrollabilă, stări loading/empty/error) + tab nou în `BottomBar` | MM-61, MM-05 | `feat/net-ui` |
+
+---
+
 ## Ordine recomandată (3 „sprinturi" scurte)
 
 1. **Sprint 0 — Fundație:** MM-01 → apoi în paralel MM-02/03 (`[TU]`) și MM-04/05 (`[COLEG]`).
