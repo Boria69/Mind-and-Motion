@@ -13,6 +13,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.mindandmotion.app.MindAndMotionApp
+import com.mindandmotion.app.ui.inspiration.InspirationScreen
+import com.mindandmotion.app.ui.inspiration.QuotesViewModel
+import com.mindandmotion.app.ui.inspiration.QuotesViewModelFactory
 import com.mindandmotion.app.ui.journal.JournalCalendarScreen
 import com.mindandmotion.app.ui.journal.JournalEntryScreen
 import com.mindandmotion.app.ui.journal.JournalViewModel
@@ -42,6 +45,9 @@ fun AppNavHost() {
     )
     val journalViewModel: JournalViewModel = viewModel(
         factory = JournalViewModelFactory(container.journalRepository)
+    )
+    val quotesViewModel: QuotesViewModel = viewModel(
+        factory = QuotesViewModelFactory(container.quotesRepository)
     )
 
     Scaffold(
@@ -89,6 +95,9 @@ fun AppNavHost() {
             }
             composable(TopLevelDestination.POMODORO.route) {
                 PomodoroScreen(viewModel = pomodoroViewModel)
+            }
+            composable(TopLevelDestination.INSPIRATION.route) {
+                InspirationScreen(viewModel = quotesViewModel)
             }
             composable(TopLevelDestination.SETTINGS.route) {
                 SettingsScreen(
