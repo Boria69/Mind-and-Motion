@@ -24,6 +24,9 @@ import com.mindandmotion.app.ui.auth.AuthViewModelFactory
 import com.mindandmotion.app.ui.auth.LoginScreen
 import com.mindandmotion.app.ui.auth.RegisterScreen
 import com.mindandmotion.app.ui.auth.SessionState
+import com.mindandmotion.app.ui.inspiration.InspirationScreen
+import com.mindandmotion.app.ui.inspiration.QuotesViewModel
+import com.mindandmotion.app.ui.inspiration.QuotesViewModelFactory
 import com.mindandmotion.app.ui.journal.JournalCalendarScreen
 import com.mindandmotion.app.ui.journal.JournalEntryScreen
 import com.mindandmotion.app.ui.journal.JournalViewModel
