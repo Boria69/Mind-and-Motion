@@ -38,7 +38,7 @@ fun LoginScreen(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
-    LaunchedEffect(Unit) { viewModel.clearError() }
+    LaunchedEffect(Unit) { viewModel.resetForm() }
 
     Column(
         Modifier
@@ -57,7 +57,7 @@ fun LoginScreen(
 
         OutlinedTextField(
             value = email,
-            onValueChange = { email = it },
+            onValueChange = { email = it; if (state.error != null) viewModel.clearError() },
             modifier = Modifier.fillMaxWidth(),
             label = { Text("Email") },
             singleLine = true,
@@ -69,7 +69,7 @@ fun LoginScreen(
 
         OutlinedTextField(
             value = password,
-            onValueChange = { password = it },
+            onValueChange = { password = it; if (state.error != null) viewModel.clearError() },
             modifier = Modifier.fillMaxWidth().padding(top = 12.dp),
             label = { Text("Parolă") },
             singleLine = true,

@@ -24,7 +24,8 @@ sealed interface SessionState {
 
 data class AuthFormState(
     val isSubmitting: Boolean = false,
-    val error: String? = null
+    val error: String? = null,
+    val registered: Boolean = false
 )
 
 class AuthViewModel(
@@ -72,8 +73,7 @@ class AuthViewModel(
         viewModelScope.launch {
             when (val result = authRepository.register(email, password)) {
                 is AuthResult.Success -> {
-                    prefs.setSession(result.userId, result.email)
-                    _formState.value = AuthFormState()
+                    _formState.value = AuthFormState(registered = true)
                 }
                 is AuthResult.Failure -> {
                     _formState.value = AuthFormState(error = result.error.message())
@@ -88,6 +88,10 @@ class AuthViewModel(
 
     fun clearError() {
         _formState.update { it.copy(error = null) }
+    }
+
+    fun resetForm() {
+        _formState.value = AuthFormState()
     }
 
     private fun validateLogin(email: String, password: String): String? = when {

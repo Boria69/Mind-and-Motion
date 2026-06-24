@@ -21,7 +21,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import android.widget.Toast
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -37,8 +39,16 @@ fun RegisterScreen(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
+    val context = LocalContext.current
 
-    LaunchedEffect(Unit) { viewModel.clearError() }
+    LaunchedEffect(Unit) { viewModel.resetForm() }
+
+    LaunchedEffect(state.registered) {
+        if (state.registered) {
+            Toast.makeText(context, "Cont creat. Conectează-te.", Toast.LENGTH_LONG).show()
+            onBack()
+        }
+    }
 
     Scaffold(topBar = { AppTopBar(title = "Cont nou", onBack = onBack) }) { padding ->
         Column(
@@ -51,7 +61,7 @@ fun RegisterScreen(
         ) {
             OutlinedTextField(
                 value = email,
-                onValueChange = { email = it },
+                onValueChange = { email = it; if (state.error != null) viewModel.clearError() },
                 modifier = Modifier.fillMaxWidth(),
                 label = { Text("Email") },
                 singleLine = true,
@@ -63,7 +73,7 @@ fun RegisterScreen(
 
             OutlinedTextField(
                 value = password,
-                onValueChange = { password = it },
+                onValueChange = { password = it; if (state.error != null) viewModel.clearError() },
                 modifier = Modifier.fillMaxWidth(),
                 label = { Text("Parolă (min. 6 caractere)") },
                 singleLine = true,
@@ -76,7 +86,7 @@ fun RegisterScreen(
 
             OutlinedTextField(
                 value = confirmPassword,
-                onValueChange = { confirmPassword = it },
+                onValueChange = { confirmPassword = it; if (state.error != null) viewModel.clearError() },
                 modifier = Modifier.fillMaxWidth(),
                 label = { Text("Confirmă parola") },
                 singleLine = true,
