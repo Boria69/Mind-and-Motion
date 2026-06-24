@@ -14,11 +14,11 @@ care plafonul e ~6/10. Astea sunt prioritatea zero pentru nota 10.
 | **Autentificare (Login + Register)** | **2p** | ✅ | Epic 5 (MM-50..53): Room `users` (parolă SHA-256 + salt), `AuthRepository`, `AuthViewModel`, `LoginScreen`/`RegisterScreen`, sesiune în DataStore, gating în nav + Logout în Settings |
 | Bază de date locală + listă scrollabilă | 2p | ✅ | Room (`tasks`, `journal_entries`); `TaskListScreen` = `LazyColumn` scrollabilă |
 | Date în SharedPreferences/DataStore | 1p | ✅ | `Prefs` (DataStore): durate Pomodoro + temă |
-| **Cereri HTTP (min. 2) + deserializare JSON în listă/DB** | **2p** | ❌ | **LIPSEȘTE complet** — aplicația nu are deloc networking |
+| **Cereri HTTP (min. 2) + deserializare JSON în listă/DB** | **2p** | ✅ | Epic 6 (MM-60..62): Retrofit + Gson + OkHttp, 2 endpointuri (`quotes/random` + `quotes`), `QuotesRepository`/`QuotesViewModel`, `InspirationScreen` (`LazyColumn`, stări loading/empty/eroare + retry), tab nou în `BottomBar`, permisiune `INTERNET` |
 | Aplicație user-friendly (arată bine, nu se suprapune, merge) | 1.5p | 🟡 | Material 3, arată ok; de verificat pe device că nimic nu se suprapune și toate ecranele merg |
 | NO CRASH | -1p | 🟡 | De asigurat stabilitatea (vezi checklist mai jos) |
 
-**Total acoperit acum: ~8p (Auth livrat în Epic 5). Mai lipsește 2p (HTTP — Epic 6, `[COLEG]`).**
+**Total acoperit acum: ~10p — Auth (Epic 5) și HTTP (Epic 6) livrate și verificate pe device. Toate cerințele baremului sunt acoperite.**
 
 ## ❌ Gol 1 — Autentificare (Login + Register) — 2p
 
