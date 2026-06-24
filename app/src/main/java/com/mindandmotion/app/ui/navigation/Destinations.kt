@@ -38,4 +38,10 @@ object Routes {
 
     /** About screen, reached from Settings. (MM-41) */
     const val ABOUT = "about"
+
+    /** Login screen of the auth graph, shown when no session exists. (MM-52) */
+    const val LOGIN = "login"
+
+    /** Register screen, pushed on top of login. (MM-52) */
+    const val REGISTER = "register"
 }

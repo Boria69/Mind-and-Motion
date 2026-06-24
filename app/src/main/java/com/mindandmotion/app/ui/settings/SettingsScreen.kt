@@ -10,6 +10,8 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -31,6 +33,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun SettingsScreen(
     prefs: Prefs,
+    userEmail: String,
+    onLogout: () -> Unit,
     onNavigateToAbout: () -> Unit,
     onBack: (() -> Unit)? = null
 ) {
@@ -59,6 +63,16 @@ fun SettingsScreen(
                     value = pomodoroPrefs.longBreakMinutes,
                     onValueChange = { scope.launch { prefs.setLongBreakMinutes(it) } }
                 )
+            }
+
+            SectionCard(title = "Cont") {
+                Text(userEmail, style = MaterialTheme.typography.bodyMedium)
+                OutlinedButton(
+                    onClick = onLogout,
+                    modifier = Modifier.fillMaxWidth().padding(top = 12.dp)
+                ) {
+                    Text("Deconectează-te")
+                }
             }
 
             SectionCard(title = "Temă") {
