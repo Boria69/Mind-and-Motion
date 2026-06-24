@@ -2,6 +2,7 @@ package com.mindandmotion.app.di
 
 import android.content.Context
 import com.mindandmotion.app.data.AppDatabase
+import com.mindandmotion.app.data.auth.AuthRepository
 import com.mindandmotion.app.data.journal.JournalRepository
 import com.mindandmotion.app.data.quotes.QuotesApi
 import com.mindandmotion.app.data.quotes.QuotesRepository
@@ -18,6 +19,7 @@ class AppContainer(private val context: Context) {
     val journalRepository: JournalRepository by lazy { JournalRepository(database.journalDao()) }
 
     val quotesRepository: QuotesRepository by lazy { QuotesRepository(QuotesApi.service) }
+    val authRepository: AuthRepository by lazy { AuthRepository(database.userDao()) }
 
     val prefs: Prefs by lazy { Prefs(context) }
 

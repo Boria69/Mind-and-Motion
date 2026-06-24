@@ -3,6 +3,7 @@ package com.mindandmotion.app.util
 import android.content.Context
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
@@ -18,6 +19,11 @@ data class PomodoroPrefs(
     val longBreakMinutes: Int = 15
 )
 
+data class Session(
+    val userId: Long,
+    val email: String
+)
+
 /**
  * Wrapper peste DataStore pentru preferințele aplicației.
  *
@@ -31,6 +37,14 @@ class Prefs(private val context: Context) {
         val BREAK_MINUTES = intPreferencesKey("break_minutes")
         val LONG_BREAK_MINUTES = intPreferencesKey("long_break_minutes")
         val THEME = stringPreferencesKey("theme")
+        val SESSION_USER_ID = longPreferencesKey("session_user_id")
+        val SESSION_EMAIL = stringPreferencesKey("session_email")
+    }
+
+    val session: Flow<Session?> = context.dataStore.data.map { prefs ->
+        val userId = prefs[Keys.SESSION_USER_ID]
+        val email = prefs[Keys.SESSION_EMAIL]
+        if (userId != null && email != null) Session(userId, email) else null
     }
 
     val pomodoroPrefs: Flow<PomodoroPrefs> = context.dataStore.data.map { prefs ->
@@ -63,5 +77,19 @@ class Prefs(private val context: Context) {
 
     suspend fun setTheme(theme: AppTheme) {
         context.dataStore.edit { it[Keys.THEME] = theme.name }
+    }
+
+    suspend fun setSession(userId: Long, email: String) {
+        context.dataStore.edit {
+            it[Keys.SESSION_USER_ID] = userId
+            it[Keys.SESSION_EMAIL] = email
+        }
+    }
+
+    suspend fun clearSession() {
+        context.dataStore.edit {
+            it.remove(Keys.SESSION_USER_ID)
+            it.remove(Keys.SESSION_EMAIL)
+        }
     }
 }
