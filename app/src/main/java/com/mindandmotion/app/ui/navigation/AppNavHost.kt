@@ -98,6 +98,9 @@ private fun MainNavHost(userEmail: String, onLogout: () -> Unit) {
     val journalViewModel: JournalViewModel = viewModel(
         factory = JournalViewModelFactory(container.journalRepository)
     )
+    val quotesViewModel: QuotesViewModel = viewModel(
+        factory = QuotesViewModelFactory(container.quotesRepository)
+    )
 
     Scaffold(
         bottomBar = { BottomBar(navController) },
@@ -144,6 +147,9 @@ private fun MainNavHost(userEmail: String, onLogout: () -> Unit) {
             }
             composable(TopLevelDestination.POMODORO.route) {
                 PomodoroScreen(viewModel = pomodoroViewModel)
+            }
+            composable(TopLevelDestination.INSPIRATION.route) {
+                InspirationScreen(viewModel = quotesViewModel)
             }
             composable(TopLevelDestination.SETTINGS.route) {
                 SettingsScreen(

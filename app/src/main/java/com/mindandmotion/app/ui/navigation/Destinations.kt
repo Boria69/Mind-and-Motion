@@ -4,13 +4,14 @@ import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.FormatQuote
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Timer
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.mindandmotion.app.R
 
 /**
- * The four top-level destinations shown in the [BottomBar]. Each maps to a
+ * The top-level destinations shown in the [BottomBar]. Each maps to a
  * single navigation route, a label and an icon. Detail/edit routes that are
  * pushed on top of a tab live in [Routes].
  */
@@ -22,6 +23,7 @@ enum class TopLevelDestination(
     TASKS("tasks", R.string.nav_tasks, Icons.Filled.CheckCircle),
     JOURNAL("journal", R.string.nav_journal, Icons.AutoMirrored.Filled.MenuBook),
     POMODORO("pomodoro", R.string.nav_pomodoro, Icons.Filled.Timer),
+    INSPIRATION("inspiration", R.string.nav_inspiration, Icons.Filled.FormatQuote),
     SETTINGS("settings", R.string.nav_settings, Icons.Filled.Settings),
 }
 
