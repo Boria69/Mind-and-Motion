@@ -11,14 +11,14 @@ care plafonul e ~6/10. Astea sunt prioritatea zero pentru nota 10.
 |---|---|---|---|
 | Acces GIT | gate | ✅ | Repo GitHub, ambii membri commit-uiesc de pe contul lor |
 | Activity, Screens & Navigation Component | 1.5p | ✅ | Single-Activity (`MainActivity`), ecrane Compose, `AppNavHost` + `BottomBar` (Navigation Compose). Rămâne doar cablarea ecranelor colegului în nav (MM-43) |
-| **Autentificare (Login + Register)** | **2p** | ❌ | **LIPSEȘTE complet** — nu există niciun ecran/flux de auth |
+| **Autentificare (Login + Register)** | **2p** | ✅ | Epic 5 (MM-50..53): Room `users` (parolă SHA-256 + salt), `AuthRepository`, `AuthViewModel`, `LoginScreen`/`RegisterScreen`, sesiune în DataStore, gating în nav + Logout în Settings |
 | Bază de date locală + listă scrollabilă | 2p | ✅ | Room (`tasks`, `journal_entries`); `TaskListScreen` = `LazyColumn` scrollabilă |
 | Date în SharedPreferences/DataStore | 1p | ✅ | `Prefs` (DataStore): durate Pomodoro + temă |
 | **Cereri HTTP (min. 2) + deserializare JSON în listă/DB** | **2p** | ❌ | **LIPSEȘTE complet** — aplicația nu are deloc networking |
 | Aplicație user-friendly (arată bine, nu se suprapune, merge) | 1.5p | 🟡 | Material 3, arată ok; de verificat pe device că nimic nu se suprapune și toate ecranele merg |
 | NO CRASH | -1p | 🟡 | De asigurat stabilitatea (vezi checklist mai jos) |
 
-**Total acoperit acum: ~6p. Lipsesc 4p (Auth 2p + HTTP 2p).**
+**Total acoperit acum: ~8p (Auth livrat în Epic 5). Mai lipsește 2p (HTTP — Epic 6, `[COLEG]`).**
 
 ## ❌ Gol 1 — Autentificare (Login + Register) — 2p
 
